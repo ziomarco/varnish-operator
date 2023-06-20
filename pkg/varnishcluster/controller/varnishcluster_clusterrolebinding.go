@@ -23,7 +23,7 @@ func (r *ReconcileVarnishCluster) reconcileClusterRoleBinding(ctx context.Contex
 		ObjectMeta: metav1.ObjectMeta{
 			Name:   names.ClusterRoleBinding(instance.Name, instance.Namespace),
 			Labels: labels.CombinedComponentLabels(instance, vcapi.VarnishComponentClusterRoleBinding),
-			Annotations: annotations.MergeAnnotations(map[string]string{
+			Annotations: annotations.AddSpecificCRCRDAnnotations(map[string]string{
 				annotationVarnishClusterNamespace: instance.Namespace,
 				annotationVarnishClusterName:      instance.Name,
 			}, instance),
