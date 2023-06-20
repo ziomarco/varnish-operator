@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"github.com/ibm/varnish-operator/pkg/annotations"
 
 	vcapi "github.com/ibm/varnish-operator/api/v1alpha1"
 	"github.com/ibm/varnish-operator/pkg/labels"
@@ -22,10 +23,10 @@ func (r *ReconcileVarnishCluster) reconcileClusterRole(ctx context.Context, inst
 		ObjectMeta: metav1.ObjectMeta{
 			Name:   names.ClusterRole(instance.Name, instance.Namespace),
 			Labels: labels.CombinedComponentLabels(instance, vcapi.VarnishComponentClusterRole),
-			Annotations: map[string]string{
+			Annotations: annotations.MergeAnnotations(map[string]string{
 				annotationVarnishClusterNamespace: instance.Namespace,
 				annotationVarnishClusterName:      instance.Name,
-			},
+			}, instance),
 		},
 		Rules: []rbac.PolicyRule{
 			{
