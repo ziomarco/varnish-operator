@@ -1,5 +1,5 @@
 ARG BUILDPLATFORM=linux/amd64
-FROM --platform=$BUILDPLATFORM golang:1.19.5-bullseye AS builder
+FROM --platform=$BUILDPLATFORM golang:1.19.5-bookworm AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive INSTALL_DIRECTORY=/usr/local/bin
 
@@ -28,7 +28,7 @@ RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH \
     ./cmd/varnish-controller/
 
 
-FROM --platform=$BUILDPLATFORM debian:bullseye-slim as binary
+FROM --platform=$BUILDPLATFORM debian:bookworm-slim as binary
 
 RUN apt update && apt install curl -y && curl -s https://packagecloud.io/install/repositories/varnishcache/varnish73/script.deb.sh | bash
 
@@ -36,10 +36,10 @@ RUN apt-get install -y --no-install-recommends varnish
 
 
 # Build Final Varnish image
-FROM --platform=$BUILDPLATFORM debian:bullseye-slim
+FROM --platform=$BUILDPLATFORM debian:bookworm-slim
 LABEL maintainer="Alex Lytvynenko <oleksandr.lytvynenko@ibm.com>, Tomash Sidei <tomash.sidei@ibm.com>"
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends libc6 libedit2 libncursesw6 libtinfo6 libvarnishapi2 \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends libc6 libedit2 libncursesw6 libtinfo6 libvarnishapi3 \
     && rm -rf /var/lib/apt/lists/* \
                     /etc/varnish/* \
     && adduser --quiet --system --no-create-home --home /nonexistent --group varnish \

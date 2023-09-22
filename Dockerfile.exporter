@@ -1,5 +1,5 @@
 ARG BUILDPLATFORM=linux/amd64
-FROM --platform=$BUILDPLATFORM golang:1.19.5-bullseye AS builder
+FROM --platform=$BUILDPLATFORM golang:1.19.5-bookworm AS builder
 ARG TARGETOS=linux
 ARG TARGETARCH=amd64
 ARG PROMETHEUS_VARNISH_EXPORTER_VERSION=1.6.1
@@ -10,9 +10,9 @@ RUN git clone --branch $PROMETHEUS_VARNISH_EXPORTER_VERSION --single-branch http
   && cd prometheus_varnish_exporter \
   && CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o /prometheus-varnish-exporter
 
-FROM --platform=$BUILDPLATFORM debian:bullseye-slim
+FROM --platform=$BUILDPLATFORM debian:bookworm-slim
 LABEL maintainer="Alex Lytvynenko <oleksandr.lytvynenko@ibm.com>, Tomash Sidei <tomash.sidei@ibm.com>"
-RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends libc6 libedit2 libncursesw6 libtinfo6 libvarnishapi2 \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends libc6 libedit2 libncursesw6 libtinfo6 libvarnishapi3 \
     && adduser --quiet --system --no-create-home --home /nonexistent --group varnish \
     && mkdir -p /etc/varnish /var/lib/varnish \
     && chown -R varnish /etc/varnish /var/lib/varnish \

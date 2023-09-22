@@ -1,5 +1,5 @@
 ARG BUILDPLATFORM=linux/amd64
-FROM --platform=$BUILDPLATFORM debian:bullseye-slim
+FROM --platform=$BUILDPLATFORM debian:bookworm-slim
 LABEL maintainer="Alex Lytvynenko <oleksandr.lytvynenko@ibm.com>, Tomash Sidei <tomash.sidei@ibm.com>, Marco Palmisano <palmima8@gmail.com>"
 
 RUN apt update && apt install curl -y && curl -s https://packagecloud.io/install/repositories/varnishcache/varnish73/script.deb.sh | bash
