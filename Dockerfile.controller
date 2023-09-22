@@ -30,7 +30,9 @@ RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH \
 
 FROM --platform=$BUILDPLATFORM debian:bullseye-slim as binary
 
-RUN apt-get update && apt-get install -y --no-install-recommends varnish
+RUN apt update && apt install curl -y && curl -s https://packagecloud.io/install/repositories/varnishcache/varnish73/script.deb.sh | bash
+
+RUN apt-get install -y --no-install-recommends varnish
 
 
 # Build Final Varnish image

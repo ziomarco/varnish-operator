@@ -99,7 +99,7 @@ func main() {
 		logr.With(zap.Error(err)).Fatalw("could not setup controller")
 	}
 	logr.Infow("Looking up for a Varnish service")
-	if err = varnishAdm.Ping(); err != nil {
+	if err = varnishibmcomAdm.Ping(); err != nil {
 		logr.With(err).Fatalf("Varnish is unreachable")
 	}
 	logr.Infow("Starting Varnish Controller")
